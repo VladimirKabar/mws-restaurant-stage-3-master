@@ -99,7 +99,7 @@ updateRestaurants = () => {
   const neighborhood = nSelect[nIndex].value;
   const favourite = fvalue;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood,favourite, (error, restaurants) => {
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, favourite, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -144,12 +144,12 @@ createRestaurantHTML = (restaurant, tabIndex) => {
   const li = document.createElement('li');
   const picture = document.createElement('picture');
 
-  var fileName = DBHelper.fileNameForRestaurant(restaurant)+".jpg";
+  var fileName = DBHelper.fileNameForRestaurant(restaurant) + ".jpg";
   picture.className = 'restaurant-img';
-  picture.innerHTML = '<source media="(min-width: 750px)" srcset="/img/large/' + fileName+'">' +
+  picture.innerHTML = '<source media="(min-width: 750px)" srcset="/img/large/' + fileName + '">' +
     '<source media="(min-width: 500px)" srcset="/img/medium/' + fileName + '">' +
     '<img class="lazy" src="/img/small/' + fileName + '" alt="Main image of ' + restaurant.name + ' restaurant">';
-    
+
   li.append(picture);
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;

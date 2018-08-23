@@ -2,6 +2,7 @@
   "data": {
     "restaurants": [
       {
+        "favourite": "false",
         "name": "Mission Chinese Food",
         "neighborhood": "Manhattan",
         "photograph": "1",
@@ -41,10 +42,12 @@
           }
         ],
         "createdAt": "2017-07-25T02:26:54.985Z",
-        "updatedAt": "2017-07-25T02:26:54.985Z",
-        "id": 1
+        "updatedAt": "2018-08-23T12:26:16.566Z",
+        "id": 1,
+        "is_favorite": "true"
       },
       {
+        "favourite": "false",
         "name": "Emily",
         "neighborhood": "Brooklyn",
         "photograph": "2",
@@ -84,10 +87,12 @@
           }
         ],
         "createdAt": "2017-07-25T02:29:58.323Z",
-        "updatedAt": "2017-07-25T02:29:58.323Z",
-        "id": 2
+        "updatedAt": "2018-08-23T12:26:15.552Z",
+        "id": 2,
+        "is_favorite": "true"
       },
       {
+        "favourite": "false",
         "name": "Kang Ho Dong Baekjeong",
         "neighborhood": "Manhattan",
         "photograph": "3",
@@ -127,10 +132,12 @@
           }
         ],
         "createdAt": "2017-07-25T02:30:26.391Z",
-        "updatedAt": "2017-07-25T02:30:26.391Z",
-        "id": 3
+        "updatedAt": "2018-08-23T12:24:53.339Z",
+        "id": 3,
+        "is_favorite": "false"
       },
       {
+        "favourite": "true",
         "name": "Katz's Delicatessen",
         "neighborhood": "Manhattan",
         "photograph": "4",
@@ -174,6 +181,7 @@
         "id": 4
       },
       {
+        "favourite": "false",
         "name": "Roberta's Pizza",
         "neighborhood": "Brooklyn",
         "photograph": "5",
@@ -217,6 +225,7 @@
         "id": 5
       },
       {
+        "favourite": "false",
         "name": "Hometown BBQ",
         "neighborhood": "Brooklyn",
         "photograph": "6",
@@ -260,6 +269,7 @@
         "id": 6
       },
       {
+        "favourite": "true",
         "name": "Superiority Burger",
         "neighborhood": "Manhattan",
         "photograph": "7",
@@ -303,6 +313,7 @@
         "id": 7
       },
       {
+        "favourite": "false",
         "name": "The Dutch",
         "neighborhood": "Manhattan",
         "photograph": "8",
@@ -346,6 +357,7 @@
         "id": 8
       },
       {
+        "favourite": "false",
         "name": "Mu Ramen",
         "neighborhood": "Queens",
         "photograph": "9",
@@ -389,6 +401,7 @@
         "id": 9
       },
       {
+        "favourite": "false",
         "name": "Casa Enrique",
         "neighborhood": "Queens",
         "photograph": "10",

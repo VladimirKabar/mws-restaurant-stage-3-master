@@ -89,14 +89,17 @@ window.initMap = () => {
 updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
+  const fSelect = document.getElementById('favourite-select');
 
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
+  const fvalue = fSelect.checked;
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
+  const favourite = fvalue;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood,favourite, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -139,28 +142,15 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant, tabIndex) => {
   const li = document.createElement('li');
+  const picture = document.createElement('picture');
 
-  // To do : responsive images?
-  let source = DBHelper.imageUrlForRestaurant(restaurant);
   var fileName = DBHelper.fileNameForRestaurant(restaurant)+".jpg";
-  var picture = document.createElement('picture');
-  var slash = '/';
   picture.className = 'restaurant-img';
   picture.innerHTML = '<source media="(min-width: 750px)" srcset="/img/large/' + fileName+'">' +
     '<source media="(min-width: 500px)" srcset="/img/medium/' + fileName + '">' +
     '<img class="lazy" src="/img/small/' + fileName + '" alt="Main image of ' + restaurant.name + ' restaurant">';
     
   li.append(picture);
-  // const name = document.createElement('figcaption');
-  // name.innerHTML = restaurant.name;
-  // li.append(name) ;
-
-  // const image = document.createElement('img');
-  // image.className = 'restaurant-img';
-  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  // image.alt = restaurant.name + ' Main Image';
-  // li.append(image);
-
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);

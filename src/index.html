@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  
+
   <meta name="description" content="Site for restaurant review">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.min.css">
@@ -35,7 +35,11 @@
         </select>
         <select tabindex="4" id="cuisines-select" name="cuisines" aria-label="Select Cuisine" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
-        </select>
+        </select>       
+        <input type="checkbox" tabindex="5" id="favourite-select" name="favourite" aria-label="Select Favourites only" onclick="updateRestaurants()">
+        <label for="favourite-select">
+            <h2>Only yours Favourite(s) restaurant(s)</h2>
+          </label>
       </div>
       <ul id="restaurants-list"></ul>
     </section>

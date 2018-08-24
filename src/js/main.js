@@ -10,6 +10,8 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  
+
 });
 
 /**
@@ -147,10 +149,10 @@ createRestaurantHTML = (restaurant, tabIndex) => {
   favorite.setAttribute('id','restaurant-favorite');
   favorite.innerHTML = restaurant.is_favorite;
 
-  li.append(favorite);
+  // li.append(favorite);
 
   let btn = document.createElement('button');
-  btn.setAttribute('id', 'button-favorite');
+  btn.setAttribute('div', 'restaurant-favorite-btn');
   if (restaurant.is_favorite == 'true') {
       btn.innerHTML = ' Remove from Favorite';
       btn.setAttribute('onclick', `DBHelper.changeFavorite(${restaurant.id}, false);`);

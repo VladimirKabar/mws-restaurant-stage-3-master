@@ -209,10 +209,11 @@ nav h1 a {
 }
 
 #restaurants-list li {
+    border-radius: 15px 15px 50px 50px;
     background-color: #fff;
     border: 2px solid #ccc;
     font-family: Arial, sans-serif;
-    margin: 15px;
+    margin: 15px auto;
     min-height: 380px;
     padding: 0 10px 25px;
     /* text-align: left; */
@@ -370,11 +371,10 @@ nav h1 a {
     cursor: pointer
 }
 
-.review-form-radio-box,
-.review-form-radio-wrapper {
-    width: 90%;
+.review-form-radio-box {
     display: flex;
-    justify-content: space-between;
+    /* flex-direction: column; */
+    text-align: center;
 }
 
 #reviews-list {

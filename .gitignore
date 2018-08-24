@@ -116,11 +116,3 @@ npm-debug.log
 nbproject
 .idea
 .node_history
-vscode
-.vscode
-.editorconfig
-editorconfig
-src/node_modules/**
-src/img/large/**
-src/img/medium/**
-src/img/small/**

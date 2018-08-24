@@ -23,6 +23,12 @@ class DBHelper {
         keyPath: 'id'
       });
       store.createIndex('by-id', 'id');
+
+      const newReviews = upgradeDb.createObjectStore('restaurantReview', {
+        keyPath: 'id'
+      });
+      newReviews.createIndex('restaurant_id', 'restaurant_id'); //USUNAC docelowo bylo cos innego
+
     });
   }
 
@@ -133,7 +139,7 @@ class DBHelper {
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
-  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood,favourite, callback) {
+  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, favourite, callback) {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -146,8 +152,9 @@ class DBHelper {
         if (neighborhood != 'all') { // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
         }
-        if (favourite === true) { // filter by favourite
-          results = results.filter(r => r.favourite == "true");
+        if (favourite == true) { // filter by favourite
+          console.log(favourite);
+          results = results.filter(r => r.is_favorite == true);
         }
         callback(null, results);
       }
@@ -194,7 +201,8 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.min.html?id=${restaurant.id}`);
+    // return (`./restaurant.min.html?id=${restaurant.id}`); USUNAC bo min
+    return (`./restaurant.html?id=${restaurant.id}`);
   }
 
   /**
@@ -223,5 +231,43 @@ class DBHelper {
     return marker;
   }
 
+
+
+  // 
+  // 
+
+  static addReviewToIDB(data) { //USUNAC ok
+    return DBHelper.openIDB().then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('restaurantReview', 'readwrite');
+      const store = tx.objectStore('restaurantReview');
+      store.put(data);
+
+      return tx.complete;
+    })
+  }
+
+  static postReviewFromForm(body) { // USUNAC ok
+
+    fetch(`http://localhost:1337/reviews/`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Accept': 'application/json , text/plain',
+        'content-type': 'application/json'
+      }
+    })
+      .then(response => {
+        response.json()
+          .then(data => {
+            DBHelper.addReviewToIDB(data); // USUNAC ok
+          })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }
 
 }

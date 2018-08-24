@@ -55,32 +55,33 @@
       <h2>Wanna write a review?</h2>
       <form action="" id="review-form" method="POST" aria-label="write a review">
         <div class="review-form-box">
-          <label for="review-nick">Your nick or name :</label>
+          <label for="review-name">Your nick or name :</label>
           <input type="text" id="review-name" placeholder="eg. John Doe" aria-label="nick or name" aria-required="true" required>
 
           <label for="review-text">Your review :</label>
-          <textarea id="review-text" placeholder="Write here your review" cols="30" rows="10" aria-required="true" required></textarea>
+          <textarea id="review-text" placeholder="Write here your review" cols="30" rows="10" aria-required="true"
+            required></textarea>
 
           <p>Rating:</p>
           <div class="review-form-radio-box">
             <label for="rating5" tabindex="0" aria-label="Rating 5 / 5">
-              <input type="radio" id="rating5" name="rating" value="5" checked> ☆☆☆☆☆ The best!
+              <input type="radio" id="rating5" name="rating" value="5" checked> The best! ☆☆☆☆☆ 
             </label>
 
             <label for="rating4" tabindex="0" aria-label="Rating 4 /5 ">
-              <input type="radio" id="rating4" name="rating" value="4"> ☆☆☆☆ Good value
+              <input type="radio" id="rating4" name="rating" value="4"> Good value ☆☆☆☆ 
             </label>
 
             <label for="rating3" tabindex="0" aria-label="Rating 3 / 5">
-              <input type="radio" id="rating3" name="rating" value="3"> ☆☆☆ It's ok ..
+              <input type="radio" id="rating3" name="rating" value="3"> It's ok .. ☆☆☆ 
             </label>
 
             <label for="rating2" tabindex="0" aria-label="Rating 2 / 5">
-              <input type="radio" id="rating2" name="rating" value="2"> ☆☆ Bad
+              <input type="radio" id="rating2" name="rating" value="2"> Bad ☆☆ 
             </label>
 
             <label for="rating1" tabindex="0" aria-label="Rating 1 / 5">
-              <input type="radio" id="rating1" name="rating" value="1"> ☆ Disgusting
+              <input type="radio" id="rating1" name="rating" value="1"> Disgusting ☆ 
             </label>
           </div>
           <input type="submit" id="review-submit" aria-label="Review to send" value="Send">
@@ -105,9 +106,15 @@
   <!-- Beginning scripts -->
 
   <!-- Database helpers -->
-  <script type="application/javascript" charset="utf-8" src="js/idb.min.js"></script>
+  <!-- USUNAC bo MIN
+    <script type="application/javascript" charset="utf-8" src="js/idb.min.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.min.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.min.js"></script> 
+-->
+
+  <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTX5InPSSfK2wJeLoRNrJR3ve13R6kcCs&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

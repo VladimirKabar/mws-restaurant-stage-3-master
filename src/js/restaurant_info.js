@@ -57,7 +57,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  const source = DBHelper.imageUrlForRestaurant(restaurant)+'.jpg';
+  const source = DBHelper.imageUrlForRestaurant(restaurant) + '.jpg';
   image.src = source;
   image.alt = restaurant.name + "restaurant main image";
 
@@ -95,7 +95,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -141,7 +141,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
@@ -162,4 +162,53 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+    
+
+//
+//
+
+let form = document.querySelector('#review-form'); // ok tutaj nasluchuje co sie dzieje z formularzem
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  date = new Date();
+  const body = {
+    "restaurant_id": parseInt(getParameterByName('id')),
+    "name": document.getElementById('review-name').value,
+    "date": date.toDateString(),
+    "rating": parseInt(document.querySelector('input[name="rating"]:checked').value),
+    "comments": document.getElementById('review-text').value
+  };
+  const ul = document.getElementById('reviews-list');
+  if (navigator.onLine) {
+    DBHelper.postReviewFromForm(body); //ok
+    body.createdAt = new Date();
+    body.updatedAt = new Date();
+    ul.appendChild(createReviewHTML(body));
+
+  } else {
+
+    body['updatedAt'] = new Date().getTime();
+    body['createdAt'] = new Date().getTime();
+    body['flag'] = 'unsynced'
+    DBHelper.postReviewFromForm(body); //ok
+    ul.appendChild(createReviewHTML(body));
+  }
+  form.reset();
+
+});
+
+
+/**
+ * Register service worker
+ */
+registerServiceWorker = () => { //ok USUNAC
+  navigator.serviceWorker.register('/sw.js') //ok USUNAC MIN ma byc!
+    .then(reg => {
+      document.getElementById('review-submit').addEventListener('submit', () => {
+        reg.sync.register('review-sync')
+          .then(() => console.log('Registration succeeded. Scope is ' + reg.scope));
+      })
+    })
+    .catch(err => console.log('Registration failed with ' + err));
 }

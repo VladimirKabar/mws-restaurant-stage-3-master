@@ -24,7 +24,7 @@ class DBHelper {
       });
       store.createIndex('by-id', 'id');
 
-      const newReviews = upgradeDb.createObjectStore('restaurantReview', {
+      const newReviews = upgradeDb.createObjectStore('restaurantReviewDb', {
         keyPath: 'id'
       });
       newReviews.createIndex('restaurant_id', 'restaurant_id'); //USUNAC docelowo bylo cos innego
@@ -153,8 +153,7 @@ class DBHelper {
           results = results.filter(r => r.neighborhood == neighborhood);
         }
         if (favourite == true) { // filter by favourite
-          console.log(favourite);
-          results = results.filter(r => r.is_favorite == true);
+          results = results.filter(r => r.is_favorite == 'true');
         }
         callback(null, results);
       }
@@ -201,8 +200,7 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    // return (`./restaurant.min.html?id=${restaurant.id}`); USUNAC bo min
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return (`./restaurant.min.html?id=${restaurant.id}`);
   }
 
   /**
@@ -240,15 +238,15 @@ class DBHelper {
     return DBHelper.openIDB().then(db => {
       if (!db) return;
 
-      const tx = db.transaction('restaurantReview', 'readwrite');
-      const store = tx.objectStore('restaurantReview');
+      const tx = db.transaction('restaurantReviewDb', 'readwrite');
+      const store = tx.objectStore('restaurantReviewDb');
       store.put(data);
 
       return tx.complete;
     })
   }
 
-  static postReviewFromForm(body) { // USUNAC ok
+  static postReviewFromForm(body) { // USUNAC  ok  
 
     fetch(`http://localhost:1337/reviews/`, {
       method: 'POST',
@@ -264,10 +262,73 @@ class DBHelper {
             DBHelper.addReviewToIDB(data); // USUNAC ok
           })
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
 
+  }
+  static fetchReviewsForRestaurant(id, callback) { //USUNAC ok
+
+    return DBHelper.openIDB().then(db => {
+      if (!db) return;
+      const tx = db.transaction('restaurantReviewDb');
+      const index = tx.objectStore('restaurantReviewDb').index('restaurant_id');
+
+      index.getAll(id).then(results => {
+        if (results && results.length < 1) {
+          fetch(`http://localhost:1337/reviews/?restaurant_id=${id}`)
+            .then(response => {
+              return response.json();
+            })
+            .then(reviews => {
+              return DBHelper.openIDB().then(db => {
+                if (!db) return;
+                DBHelper.saveReviewsToIDB(reviews); //ok
+
+                callback(null, reviews);
+              });
+            })
+            .catch(err => {
+              callback(err, null);
+            })
+        }
+        else {
+          console.log("reviews fetched");
+          callback(null, results);
+        }
+      })
+    });
+  }
+
+  static saveReviewsToIDB(data) { //USUNAC ok
+    return DBHelper.openIDB().then(db => {
+      if (!db) return;
+      const tx = db.transaction('restaurantReviewDb', 'readwrite');
+      const store = tx.objectStore('restaurantReviewDb');
+      data.forEach(review => {
+        store.put(review);
+      });
+      return tx.complete;
+    });
+  }
+
+  static changeFavorite(id, status) {
+    fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${status}`, { method: 'PUT' })
+      .then(res => { return res.json() })
+      .then(data => {
+        return DBHelper.openIDB().then(db => {
+          if (db) {
+            var tx = db.transaction('restaurantDb', 'readwrite');
+            var store = tx.objectStore('restaurantDb');
+            store.put(data);
+            return tx.complete;
+          }
+          else {
+            return console.log("error when trying to change status favorite!");
+          }
+        })
+          .then(location.reload());
+      })
   }
 
 }

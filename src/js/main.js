@@ -13,6 +13,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 /**
+ * Initialize Google map, called from HTML.
+ */
+window.initMap = () => {
+  let loc = {
+    lat: 40.722216,
+    lng: -73.987501
+  };
+  self.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: loc,
+    scrollwheel: false
+  });
+  updateRestaurants();
+}
+
+/**
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
@@ -68,22 +84,6 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 }
 
 /**
- * Initialize Google map, called from HTML.
- */
-window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-}
-
-/**
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
@@ -100,7 +100,7 @@ updateRestaurants = () => {
   const favourite = fvalue;
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, favourite, (error, restaurants) => {
-    if (error) { // Got an error!
+    if (error) { // Got an error! omg
       console.error(error);
     } else {
       resetRestaurants(restaurants);
@@ -142,14 +142,30 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant, tabIndex) => {
   const li = document.createElement('li');
-  const picture = document.createElement('picture');
 
-  var fileName = DBHelper.fileNameForRestaurant(restaurant) + ".jpg";
+  const favorite = document.createElement('div');
+  favorite.setAttribute('id','restaurant-favorite');
+  favorite.innerHTML = restaurant.is_favorite;
+
+  li.append(favorite);
+
+  let btn = document.createElement('button');
+  btn.setAttribute('id', 'button-favorite');
+  if (restaurant.is_favorite == 'true') {
+      btn.innerHTML = ' Remove from Favorite';
+      btn.setAttribute('onclick', `DBHelper.changeFavorite(${restaurant.id}, false);`);
+  } else {
+      btn.innerHTML = 'Add to Favorite';
+      btn.setAttribute('onclick', `DBHelper.changeFavorite(${restaurant.id}, true);`);
+  }
+  li.appendChild(btn);
+
+  const picture = document.createElement('picture');
+  const fileName = DBHelper.fileNameForRestaurant(restaurant) + ".jpg";
   picture.className = 'restaurant-img';
   picture.innerHTML = '<source media="(min-width: 750px)" srcset="/img/large/' + fileName + '">' +
     '<source media="(min-width: 500px)" srcset="/img/medium/' + fileName + '">' +
     '<img class="lazy" src="/img/small/' + fileName + '" alt="Main image of ' + restaurant.name + ' restaurant">';
-
   li.append(picture);
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
@@ -174,7 +190,7 @@ createRestaurantHTML = (restaurant, tabIndex) => {
 }
 
 /**
- * Add markers for current restaurants to the map.
+ * Add markers for current restaurants to the map..
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {

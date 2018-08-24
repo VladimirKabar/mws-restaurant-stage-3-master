@@ -52,6 +52,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+
+  //USUNAC tutaj jest fillRestaurantFavoriteHTML();
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -69,13 +71,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  //USUNAC tutaj jest DBHelper.waitingReviews();
+  fetchReviews();
 }
 
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {//ok
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
@@ -95,7 +98,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {//ok
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -117,19 +120,16 @@ fillReviewsHTML = (reviews = self.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+createReviewHTML = (review) => { //ok
   const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
+  const data = document.createElement('p');
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
-
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  if (typeof review.date !== "undefined") {
+    data.innerHTML = review.date + " " + review.name + " gave " + review.rating + " star(s) and wrote : ";
+  } else {
+    data.innerHTML = "Long time ago ... " + review.name + " gave " + review.rating + " star(s) and wrote : ";
+  }
+  li.appendChild(data);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
@@ -141,7 +141,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant = self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => { //ok
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
@@ -151,7 +151,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-getParameterByName = (name, url) => {
+getParameterByName = (name, url) => { //ok
   if (!url)
     url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -163,14 +163,15 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-    
 
-//
-//
 
-let form = document.querySelector('#review-form'); // ok tutaj nasluchuje co sie dzieje z formularzem
-form.addEventListener('submit', e => {
-  e.preventDefault();
+/**
+ * Listening form for reviewform
+ */
+
+let form = document.querySelector('#review-form'); // ok
+form.addEventListener('submit', err => {
+  err.preventDefault();
   date = new Date();
   const body = {
     "restaurant_id": parseInt(getParameterByName('id')),
@@ -184,31 +185,47 @@ form.addEventListener('submit', e => {
     DBHelper.postReviewFromForm(body); //ok
     body.createdAt = new Date();
     body.updatedAt = new Date();
-    ul.appendChild(createReviewHTML(body));
-
   } else {
-
     body['updatedAt'] = new Date().getTime();
     body['createdAt'] = new Date().getTime();
     body['flag'] = 'unsynced'
-    DBHelper.postReviewFromForm(body); //ok
-    ul.appendChild(createReviewHTML(body));
   }
+  ul.appendChild(createReviewHTML(body));
   form.reset();
 
 });
 
+/**
+ * Fetching reviews
+ */
+
+fetchReviews = () => { // ok
+  const id = parseInt(getParameterByName('id'));
+  if (id) {
+    DBHelper.fetchReviewsForRestaurant(id, (err, reviews) => {
+      self.reviews = reviews;
+      if (err || !reviews) {
+        console.log('Fetching review with error :  ', err);
+        return;
+      }
+      fillReviewsHTML();
+    });
+  } else {
+    console.log('Fetching review with error :  ', err);
+    return;
+  }
+}
+
 
 /**
- * Register service worker
+ * Register service worker 
  */
 registerServiceWorker = () => { //ok USUNAC
-  navigator.serviceWorker.register('/sw.js') //ok USUNAC MIN ma byc!
+  navigator.serviceWorker.register('/sw.min.js') //ok USUNAC MIN ma byc!
     .then(reg => {
       document.getElementById('review-submit').addEventListener('submit', () => {
-        reg.sync.register('review-sync')
-          .then(() => console.log('Registration succeeded. Scope is ' + reg.scope));
+        reg.sync.register('review-sync');
       })
     })
-    .catch(err => console.log('Registration failed with ' + err));
+    .catch(err => console.log('Error when sync reviews ' + err));
 }

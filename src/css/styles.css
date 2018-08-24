@@ -179,17 +179,7 @@ nav h1 a {
     width: 80%;
 }
 
-/* .favourite-options{
-    color: white;
-    background-color: #252831;
-    font-size: 1rem;
-    font-weight: normal;
-    line-height: 1;
-    margin: 0 20px;
-    padding: 15px;
-} */
-
-/* ====================== Restaurant Listing ====================== */
+/* ====================== Restaurant Listing ======================= */
 
 #restaurants-list {
     display: flex;
@@ -394,9 +384,9 @@ nav h1 a {
     width: 95%;
 }
 
-#reviews-list li p {
-    margin: 0 0 10px;
-}
+/* #reviews-list li p {
+    margin: 10px 0 10px;
+} */
 
 #restaurant-hours td {
     color: #666;

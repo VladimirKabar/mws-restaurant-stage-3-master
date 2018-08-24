@@ -1,0 +1,9 @@
+{
+    // "workbench.panel.location": "bottom",
+    "explorer.confirmDelete": false,
+    "code-runner.respectShebang": false,
+    "es6-css-minify.minifyOnSave": "yes",
+    "minify.minifyExistingOnSave": true,
+    "explorer.confirmDragAndDrop": false,
+    "es6-css-minify.jsMinPath": "/src/js/min"
+}

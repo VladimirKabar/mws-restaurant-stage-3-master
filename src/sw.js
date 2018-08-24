@@ -1,22 +1,18 @@
-const staticCacheName = 'restaurant-cache-v1';
-const OFFLINE_URL = 'offline.html';
+const staticCacheName = 'restaurant-cache-v2';
+const OFFLINE_URL = 'offline.min.html';
 const filesToCache = [
 
     '/',
     './manifest.json',
     './index.html',
-    './404.html',
-    './offline.html',
+    './restaurant.min.html',
+    './404.min.html',
+    './offline.min.html',
     './css/styles.min.css',
-    './js/lazyload.min.js',
-    // './restaurant.min.html',
-    // './js/idb.min.js',
-    // './js/dbhelper.min.js',
-    // './js/main.min.js',
-    './restaurant.html',
-    './js/idb.js',
-    './js/dbhelper.js',
-    './js/main.js',
+    './js/min/lazyload.min.js',
+    './js/min/idb.min.js',
+    './js/min/dbhelper.min.js',
+    './js/min/main.min.js',
     './js/restaurant_info.js',
     './data/restaurants.json',
     './img/1.jpg',
@@ -39,6 +35,26 @@ const filesToCache = [
     './img/large/8.jpg',
     './img/large/9.jpg',
     './img/large/10.jpg',
+    './img/small/1.jpg',
+    './img/small/2.jpg',
+    './img/small/3.jpg',
+    './img/small/4.jpg',
+    './img/small/5.jpg',
+    './img/small/6.jpg',
+    './img/small/7.jpg',
+    './img/small/8.jpg',
+    './img/small/9.jpg',
+    './img/small/10.jpg',
+    './img/medium/1.jpg',
+    './img/medium/2.jpg',
+    './img/medium/3.jpg',
+    './img/medium/4.jpg',
+    './img/medium/5.jpg',
+    './img/medium/6.jpg',
+    './img/medium/7.jpg',
+    './img/medium/8.jpg',
+    './img/medium/9.jpg',
+    './img/medium/10.jpg',
     './img/restaurant-icon.png'
 ];
 
@@ -65,33 +81,6 @@ self.addEventListener('active', function (e) {
         }))
 });
 
-
-// self.addEventListener('fetch', function (e) {
-//     {
-//         e.respondWith(
-//             caches.match(e.request, { ignoreSearch: true }).then(function (res) {//now works with query string in the URL.  !!!!
-//                 if (res) {
-//                     return res;
-//                 }
-//                 var fetchReq = e.request.clone();
-//                 return fetch(fetchReq).then(
-//                     function (res) {
-//                         if (!res || res.status !== 200 || res.type !== 'basic') {
-//                             return res;
-//                       }
-//                         var resToCache = res.clone();
-//                         caches.open(staticCacheName)
-//                             .then(function (cache) {
-//                                 cache.put(e.request, resToCache);
-//                             });
-//                       return res;
-//                     }
-//                 );
-//             })
-//         );
-//  }
-// }); 
-
 self.addEventListener('message', function (e) {
     if (e.data.action === 'skipWaiting') {
         self.skipWaiting();
@@ -103,13 +92,12 @@ self.addEventListener('fetch', function (event) {
         caches.match(event.request, { ignoreSearch: true }).then(function (resp) {
             return resp || fetch(event.request).then(function (response) {
                 if (response.status === 404) {
-                    return caches.match('404.html');
+                    return caches.match('404.min.html');
                 }
                 // let responseClone = response.clone();
                 // caches.open('restaurant-cache-v2').then(function (cache) {
                 //     cache.put(event.request, responseClone);
-                // });
-
+                // });  
                 return response;
             });
         }).catch(function () {

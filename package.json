@@ -1,25 +1,33 @@
 {
-  "name": "Restaurant-Reviews",
-  "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
-  "keywords": [],
-  "dependencies": {
-    "include-all": "^1.0.0",
-    "rc": "1.0.1",
-    "sails": "^0.12.13",
-    "sails-disk": "~0.10.9"
+  "name": "udacityprojekt",
+  "version": "3.0.0",
+  "description": "project for udacity",
+  "devDependencies": {
+    "include-all": "^4.0.3",
+    "rc": "^1.2.8",
+    "sails": "^1.0.2",
+    "sails-disk": "^1.0.1",
+    "gm": "^1.23.1",
+    "grunt": "^1.0.3",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-nodeunit": "^2.0.0",
+    "grunt-contrib-uglify": "^3.4.0",
+    "grunt-responsive-images": "^1.10.1"
   },
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node debug app.js",
     "start": "node app.js"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/brandy/Restaurant-Reviews.git"
+    "url": "git+https://github.com/VladimirKabar/mws-restaurant-stage-3-master.git"
   },
-  "author": "Brandy Lee Camacho",
-  "linkedIn": "https://www.linkedin.com/in/brandycamacho/",
-  "email": "brandy@udacity.com"
+  "author": "Vladimir Kabar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VladimirKabar/mws-restaurant-stage-3-master/issues"
+  },
+  "homepage": "https://github.com/VladimirKabar/mws-restaurant-stage-3-master#readme"
 }

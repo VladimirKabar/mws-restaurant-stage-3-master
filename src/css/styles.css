@@ -257,10 +257,14 @@ nav h1 a {
     width: 75%;
 }
 
-/* ====================== Map ====================== */
+button.restaurant-favorite-btn{
+    margin: 10px;
+}
+
+/* ====================== Map ======================== */
 
 #map {
-    height: 350px;
+    height: 300px;
     width: 100%;
 }
 
@@ -384,10 +388,6 @@ nav h1 a {
     width: 95%;
 }
 
-/* #reviews-list li p {
-    margin: 10px 0 10px;
-} */
-
 #restaurant-hours td {
     color: #666;
 }
@@ -412,7 +412,7 @@ nav h1 a {
         flex-direction: row-reverse;
     }
     #map {
-        height: 600px;
+        height: 450px;
     }
     #maincontent-top #map-container #map {
         height: 100%;

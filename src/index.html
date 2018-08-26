@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="manifest" href="manifest.json">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
@@ -11,7 +12,7 @@
   <link rel="stylesheet" href="css/styles.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="preconnect" rel="stylesheet">
   <link rel="icon" type="image/png" href="img/restaurant-icon.png" sizes="192x192">
-  <link rel="manifest" href="manifest.json">
+
   <title>Restaurant Reviews </title>
 </head>
 
@@ -35,11 +36,11 @@
         </select>
         <select tabindex="4" id="cuisines-select" name="cuisines" aria-label="Select Cuisine" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
-        </select>       
+        </select>
         <input type="checkbox" tabindex="5" id="favourite-select" name="is_favorite" aria-label="Select Favourites only" onclick="updateRestaurants()">
         <label for="favourite-select">
-            <h2>Only yours Favourite(s) restaurant(s)</h2>
-          </label>
+          <h2>Only yours Favourite(s) restaurant(s)</h2>
+        </label>
       </div>
       <ul id="restaurants-list"></ul>
     </section>
@@ -48,7 +49,8 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/sw.js').then(function (reg) {  
+        // navigator.serviceWorker.register('/sw.min.js').then(function (reg) {  
+        navigator.serviceWorker.register('/sw.min.js').then(function (reg) {
           console.log('Serviceworker registration success!, scope : ', reg.scope);
         }, function (err) {
           console.log('Serviceworker registration fail!, error : ', err);

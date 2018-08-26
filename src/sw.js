@@ -72,7 +72,7 @@ self.addEventListener('active', function (e) {
         caches.keys().then(function (cacheNames) {
             return Promise.all(
                 cacheNames.filter(function (cacheName) {
-                    console.log(cacheName);
+                    //console.log(cacheName); too many junk to show
                     return cacheName.startsWith('restaurant-') && cacheName != staticCacheName;
                 }).map(function (cacheName) {
                     return caches.delete(cacheName);
@@ -94,20 +94,11 @@ self.addEventListener('fetch', function (event) {
                 if (response.status === 404) {
                     return caches.match('404.min.html');
                 }
-                // let responseClone = response.clone();
-                // caches.open('restaurant-cache-v2').then(function (cache) {
-                //     cache.put(event.request, responseClone);
-                // });  
                 return response;
             });
         }).catch(function () {
-            return caches.match(OFFLINE_URL); //return offline site when offline and no-cache stored   
+            return caches.match(OFFLINE_URL);
+            //return offline site when offline and no-cache stored   
         })
     );
-});
-
-self.addEventListener('sync', function (event) {
-    if (event.tag === 'review-sync') {
-        event.waitUntil(DBHelper.waitingReviews());
-    }
 });

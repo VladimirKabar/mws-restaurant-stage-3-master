@@ -364,7 +364,7 @@ class DBHelper {
                         return tx.complete;
                     }
                     else {
-                        return console.log("error when trying to change status favorite!");
+                        return console.log("Error (changeFavorite): ");
                     }
                 })
                     .then(location.reload());
